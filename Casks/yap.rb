@@ -12,15 +12,12 @@ cask "yap" do
 
   app "Yap.app"
 
-  # Yap is not notarized. Clear the download
-  # quarantine after install so macOS doesn't say "damaged" — no manual step.
-  postflight_steps do
-    run "/usr/bin/xattr",
-        args: ["-cr", "{{appdir}}/Yap.app"],
-        sudo: false
-  end
-
   caveats <<~EOS
+    This release is not notarized. This cask deliberately preserves macOS
+    quarantine and does not bypass Gatekeeper. macOS may block launch; do not
+    remove quarantine with xattr to force it open. Use a notarized release or
+    build from reviewed source instead.
+
     On first run, grant Accessibility (to dictate / read selected text) and
     Microphone (for dictation), or use Clipboard mode for reading (no
     permission needed). First launch downloads the Kokoro voice model
